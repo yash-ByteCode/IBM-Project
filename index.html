@@ -12,10 +12,14 @@
 
     <div class="input-box">
         <input type="text" id="noticeInput" placeholder="Enter notice here">
-        <button onclick="addNotice()">Add Notice</button>
+        <button id="addBtn" onclick="addNotice()">Add Notice</button>
     </div>
 
     <div id="noticeBoard"></div>
+</div>
+<div class="admin-bar">
+    <button onclick="adminLogin()">🔐 Admin Login</button>
+    <button onclick="adminLogout()" id="logoutBtn" style="display:none;">🚪 Logout</button>
 </div>
 
 <script src="DNB.js"></script>
