@@ -2,26 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Notice Board</title>
-    <link rel="stylesheet" href="DNB.css">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="IBM.css">
 </head>
-<body>
 
-<div class="container">
-    <h1>📢 Digital Notice Board</h1>
+<body data-theme="light">
 
-    <div class="input-box">
-        <input type="text" id="noticeInput" placeholder="Enter notice here">
-        <button id="addBtn" onclick="addNotice()">Add Notice</button>
+<header class="site-header">
+    <div class="header-content">
+        <a href="#" class="logo" onclick="showView('user')">📌 Digital Notice<span>Board</span></a>
+        <div class="header-actions">
+            <button class="theme-switch" onclick="toggleTheme()" title="Toggle Theme">
+                <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42
+                             M18.36 18.36l1.42 1.42M1 12h2M21 12h2
+                             M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+            </button>
+
+            <nav class="main-nav">
+                <button id="userNavBtn" class="btn-toggle active"
+                        onclick="showView('user')">Board</button>
+                <button id="adminNavBtn" class="btn-toggle"
+                        onclick="handleAdminNav()">Admin</button>
+            </nav>
+        </div>
     </div>
+</header>
 
-    <div id="noticeBoard"></div>
+<main>
+    <div class="container">
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <h3 id="formTitle">Create Announcement</h3>
+                <button onclick="logoutAdmin()" class="btn-logout">Logout</button>
+            </div>
+
+            <input type="hidden" id="editId">
+
+            <div class="form-group">
+                <label>Headline</label>
+                <input type="text" id="titleInput" maxlength="50" placeholder="Heading...">
+                <span id="titleCounter" class="char-count">0/50</span>
+            </div>
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea id="contentInput" rows="3" maxlength="200"
+                          placeholder="Full message..."></textarea>
+                <span id="contentCounter" class="char-count">0/200</span>
+            </div>
+
+            <div class="form-actions">
+                <select id="categoryInput">
+                    <option value="general">General</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="event">Event</option>
+                </select>
+                <button class="btn-primary" id="submitBtn"
+                        onclick="handleNoticeSubmit()">🚀 Publish</button>
+            </div>
+
+            <button id="cancelBtn" onclick="resetForm()" class="cancel-btn">
+                Discard Edit
+            </button>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="search-filter-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Search notices..."
+                   oninput="renderNotices()">
+            <select id="filterSelect" onchange="renderNotices()">
+                <option value="all">All Items</option>
+                <option value="general">General</option>
+                <option value="urgent">Urgent</option>
+                <option value="event">Events</option>
+            </select>
+        </div>
+
+        <!-- Notices -->
+        <div id="noticeList" class="notice-list"></div>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <p>&copy; 2026 Digital Notice Board. Pwd: admin123</p>
+</footer>
+
+<div id="toast">Action Successful!</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal-overlay">
+    <div class="modal">
+        <h2>Admin Login</h2>
+        <p>Enter password to manage notices</p>
+        <input type="password" id="passwordInput" placeholder="Password">
+        <div class="modal-actions">
+            <button onclick="closeLogin()">Cancel</button>
+            <button onclick="verifyPassword()" class="btn-primary">Login</button>
+        </div>
+    </div>
 </div>
-<div class="admin-bar">
-    <button onclick="adminLogin()">🔐 Admin Login</button>
-    <button onclick="adminLogout()" id="logoutBtn" style="display:none;">🚪 Logout</button>
+
+<!-- Delete Modal -->
+<div id="confirmModal" class="modal-overlay">
+    <div class="modal">
+        <h3>Delete Notice?</h3>
+        <p>This action cannot be undone.</p>
+        <div class="modal-actions">
+            <button onclick="closeDeleteModal()">Cancel</button>
+            <button id="confirmDeleteBtn" class="btn-danger">Delete</button>
+        </div>
+    </div>
 </div>
-<br>
-<script src="DNB.js"></script>
+
+<!-- External JS -->
+<script src="IBM.js"></script>
 </body>
 </html>
